@@ -42,11 +42,31 @@ def get_data():
 
 @app.route('/directory')
 def view_directory():
-    return 'FIXME'
+    class_members = get_data()
+    return render_template('directory.html', students=class_members)
 
 @app.route('/directory/<username>')
 def view_student(username):
-    return 'FIXME'
+    students = get_data()
+    length = len(students)
+    for index in range(0, length):
+        if students[index].username == username:
+            curr_student = students[index]
+
+        if index == 0: #for first student on list
+            prev_student = students[length - 1]
+            next_student = students[1]
+
+        elif index == length - 1: #for last student on list
+            prev_student = students[index - 1]
+            next_student = students[0]
+
+        else: #for all students not first and last of list
+            prev_student = students[index - 1]
+            next_student = students[index + 1]
+
+    return render_template('student.html', student=curr_student, prev_student=prev_student, next_student=next_student)
+
 
 # DON'T TOUCH THE CODE BELOW THIS LINE
 
